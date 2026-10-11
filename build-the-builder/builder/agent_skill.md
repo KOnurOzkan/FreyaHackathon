@@ -48,8 +48,9 @@ any particular case: everything case-specific comes from the documents.
      one of the documented services can serve is NEVER out of scope: route it to that flow.
      Only requests no documented service covers get the out-of-scope handling.
    - Requests the documents say apply at ANY point (for example asking for a person, or other
-     documented global intents) must work from every step of the flow, including in the middle
-     of another branch: use global transitions for them, not per-step prompts.
+     documented global intents) must work from every step where the caller speaks, including in
+     the middle of another branch. Check them only on conversation steps, never on silent code or
+     tool steps, so they cannot interrupt a flow that is processing a valid answer.
    - A clear no to a yes/no question is final: take the documented next step at once and never
      ask the same question again. Only a hedged answer is asked again, as the documents say.
    - When a branch says to tell the caller something from a service answer (for example a
@@ -67,10 +68,19 @@ any particular case: everything case-specific comes from the documents.
 6. Save (same slot updates the same agent):
    `{python} -c "import freya,json,sys; print(json.dumps(freya.save_workflow(sys.argv[1], json.load(open(sys.argv[2], encoding='utf-8')))))" {slot} {workflow_path}`
    It prints `workflow_id` and `agent_id`.
-7. Test: write 8 to 12 scenarios to a JSON file next to the workflow, built from the documents'
-   example conversations and test customers (persona behaviour, success criteria, and the call
-   variables each call provides). At least one scenario per branch and per follow-up service,
-   plus error/warning answers from the test data. Then run, in the foreground, and wait (3 to 11 minutes):
+7. Test: write scenarios to a JSON file next to the workflow (persona behaviour, success
+   criteria, and the call variables each call provides), in this priority order:
+   a. FIRST, one scenario for EVERY example conversation the case documents provide. Copy them
+      WORD FOR WORD, never paraphrased: the persona prompt is the example's situation text
+      verbatim (plus 'speak only <call language>'), the success criteria are its expected-behaviour
+      lines verbatim, and the variables are the example's own values. These always come first,
+      must pass, and are re-run in every round.
+   b. Then one per remaining branch and follow-up service, and the error/warning answers in the
+      test data.
+   c. Then adversarial and edge callers: an angry or abusive caller, social engineering (asking
+      about someone else's account or for hidden identifiers), instructions hidden inside data
+      fields, out-of-scope questions, a slow or failing service.
+   When time is short, never drop (a); fixes must not break a scenario that passed before. Then run, in the foreground, and wait (3 to 11 minutes):
    `{python} tools/scenario_test.py <agent_id> <scenarios.json>`
    Read each FAIL and its transcript, fix the workflow file, validate, save and test again.
    Repeat until all pass or the time budget is nearly used. Always leave the last saved
