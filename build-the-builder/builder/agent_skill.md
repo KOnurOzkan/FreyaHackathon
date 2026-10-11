@@ -13,7 +13,8 @@ any particular case: everything case-specific comes from the documents.
 - Write your result to: `{result_path}`  as JSON: {{"workflow_id": ..., "agent_id": ..., "tests": "<summary>", "decisions": "<path to your notes>"}}
 - Write design notes (conflicts found and how you resolved them) to: `{notes_path}`
 - Python: `{python}` (run Freya helpers from the kit root, which is your working directory)
-- Time budget for your whole run: about {minutes} minutes. Plan for at most two test rounds.
+- Time budget for your whole run: about {minutes} minutes. Plan for three or four test rounds;
+  start the first test as early as possible.
 
 ## Steps
 
@@ -41,6 +42,13 @@ any particular case: everything case-specific comes from the documents.
    - Never claim an action succeeded before its tool returned success. When a tool fails, say
      so and follow the documented fallback (for example a handoff).
    - Follow the documented flow order; route on tool results and clear customer intents.
+   - Cover EVERY branch: every service in the contract and every path in the flow drawing must
+     be reachable in the workflow. List them in the notes file and check each one off.
+   - After the main answer, offer and handle every follow-up the documents allow. A request that
+     one of the documented services can serve is NEVER out of scope: route it to that flow.
+     Only requests no documented service covers get the out-of-scope handling.
+   - Handle each documented error/warning code exactly as the documents say (the announcement
+     and where the call goes next). Do not collapse different codes into one generic handoff.
    - Before ending, give the documented closing (thank and say goodbye), then end the call.
    - Keep it robust: few, clear steps; short prompts; rules in routes and code rather than
      long prompts. The phone agent model is Freya's own model, smaller than you.
@@ -50,11 +58,14 @@ any particular case: everything case-specific comes from the documents.
 6. Save (same slot updates the same agent):
    `{python} -c "import freya,json,sys; print(json.dumps(freya.save_workflow(sys.argv[1], json.load(open(sys.argv[2], encoding='utf-8')))))" {slot} {workflow_path}`
    It prints `workflow_id` and `agent_id`.
-7. Test: write 4 to 8 scenarios to a JSON file next to the workflow, built from the documents'
+7. Test: write 8 to 12 scenarios to a JSON file next to the workflow, built from the documents'
    example conversations and test customers (persona behaviour, success criteria, and the call
-   variables each call provides). Then run, in the foreground, and wait (3 to 11 minutes):
+   variables each call provides). At least one scenario per branch and per follow-up service,
+   plus error/warning answers from the test data. Then run, in the foreground, and wait (3 to 11 minutes):
    `{python} tools/scenario_test.py <agent_id> <scenarios.json>`
-   Read each FAIL, fix the workflow file, validate, save and test again. At most two rounds.
+   Read each FAIL and its transcript, fix the workflow file, validate, save and test again.
+   Repeat until all pass or the time budget is nearly used. Always leave the last saved
+   workflow in a working state.
 8. Write the result file and finish with one line: workflow_id, agent_id, scenarios passed.
 
 ## Rules
