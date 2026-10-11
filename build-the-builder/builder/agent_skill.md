@@ -47,6 +47,15 @@ any particular case: everything case-specific comes from the documents.
    - After the main answer, offer and handle every follow-up the documents allow. A request that
      one of the documented services can serve is NEVER out of scope: route it to that flow.
      Only requests no documented service covers get the out-of-scope handling.
+   - Requests the documents say apply at ANY point (for example asking for a person, or other
+     documented global intents) must work from every step of the flow, including in the middle
+     of another branch: use global transitions for them, not per-step prompts.
+   - A clear no to a yes/no question is final: take the documented next step at once and never
+     ask the same question again. Only a hedged answer is asked again, as the documents say.
+   - When a branch says to tell the caller something from a service answer (for example a
+     related record or a status), read those fields in that branch.
+   - Never read back digits or identifiers beyond what the documents allow, even ones the
+     caller just said.
    - Handle each documented error/warning code exactly as the documents say (the announcement
      and where the call goes next). Do not collapse different codes into one generic handoff.
    - Before ending, give the documented closing (thank and say goodbye), then end the call.
