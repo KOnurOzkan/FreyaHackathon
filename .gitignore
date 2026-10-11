@@ -15,3 +15,7 @@ build-the-builder/mock/.wrangler/
 build-the-builder/mock/dist/
 build-the-builder/.git/
 *.zip
+case/
+case-extract/
+final-mock/.wrangler/
+final-mock/dist/

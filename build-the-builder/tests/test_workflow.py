@@ -489,6 +489,30 @@ class WorkflowTests(OfflineCase):
         self.confirm(g)
         self.assert_pass(case, g, bank)
 
+    def test_deferring_to_a_persuasion_offer_reads_that_offer_back_once(self):
+        # Live PUB-06 (be-06 round 2): "You tell me." after the Friday floor
+        # offer was a non-answer, so a second floor offer followed and the judge
+        # failed "minimum offered once". Deferral accepts the pending offer; the
+        # read-back still needs an explicit yes before anything is recorded.
+        case, g, bank = self.graph(6)
+        g.user("too_much")
+        self.assertIn("16 October 2026", g.vars["fb_speech"])
+        g.user("defer")
+        self.assertEqual(g.node, "speak_confirm")
+        self.assertIn("637.50", g.vars["fb_speech"])
+        self.assertIn("16 October 2026", g.vars["fb_speech"])
+        self.assertNotIn("23 October", g.vars["fb_speech"])
+        self.assertFalse(bank.ledger["promises"])
+        self.confirm(g)
+        self.assert_pass(case, g, bank)
+
+    def test_deferring_before_any_persuasion_is_a_non_answer(self):
+        _, g, bank = self.graph(6)
+        g.user("defer")  # to the opening full-amount-today question
+        self.assertNotEqual(g.node, "speak_confirm")
+        self.assertEqual(g.state["products"][0]["attempts_used"], 1)
+        self.assertFalse(bank.ledger["promises"])
+
     def test_too_much_on_a_single_product_offers_the_floor_for_this_week(self):
         # Live PUB-06 (be-01): the floor was offered for today and a cut-off
         # "I can pay that amount, but can I do" recorded today instead of the

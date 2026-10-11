@@ -53,7 +53,7 @@ answers only for the currently requested field; the latest correction replaces e
 
 Actions: person_yes (explicit person confirmation only), person_unclear, other_person,
 wrong_number, deceased, callback, identity_answer, privacy_refusal, refuse_talk, human,
-restructure, hardship, support_yes, support_no, help_yes, payment, accept_offer, refuse_payment,
+restructure, hardship, support_yes, support_no, help_yes, payment, accept_offer, defer, refuse_payment,
 too_much, paid, dispute, confirm, correction, vague_date, question, unknown.
 Use unparsed if classification is unreliable. Never output continue or finalize: only
 assistant speech completion can trigger them. Human requests and hardship take priority
@@ -73,8 +73,8 @@ accept_offer, never a recordable confirmation. Hello/go ahead/who is this do not
 identity. An unwillingness to answer a security question or a repeated question about
 the call purpose at that point is privacy_refusal. A question is not a refusal to pay.
 Deferring the decision to the assistant in reply to a pending payment question or offer
-("you tell me", "whatever you think", "what do you suggest?") is a non-answer: use
-unknown, never question; the assistant already knows its own offer. If the same reply also
+("you tell me", "whatever you think", "what do you suggest?") is defer, never question or
+unknown; the assistant already knows its own offer. If the same reply also
 states its own amount or day, extract that proposal as payment instead.
 
 Optional fields: answer (string), answer_complete (boolean), product_id (copy the exact

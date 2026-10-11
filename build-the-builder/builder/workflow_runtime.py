@@ -560,6 +560,15 @@ class Conversation:
             if self.phase == "all_today" or self.speech_mode in {"offer", "offer_today"}:
                 action = "accept_offer"
                 event = {**event, "action": action}
+        if action == "defer":
+            # "You tell me" to a persuasion offer that already names amount and
+            # date defers to that offer: read it back (recording still needs an
+            # explicit yes). Elsewhere it is a non-answer (rule 30). Live PUB-06:
+            # treating it as a non-answer made a second floor offer.
+            current = self.current
+            action = ("accept_offer" if self.phase == "negotiate" and self.speech_mode == "offer" and not changed
+                      and current in self.offers and s.persuasion_attempts.get(current, 0) >= 1 else "unknown")
+            event = {**event, "action": action}
         if s.closed:
             self.phase = "end"
             return

@@ -765,3 +765,17 @@ For later live testing, use the separately prepared A20/B12 files with `tools/li
 - 19:08 Istanbul, be-06 live: ALL 13 PUB PASS (judge + ledger). out/pub-a-be06-rec1 10/10, out/pub-b-be06-rec1 3/3. Round 2 continues in out/pub-*-be06-rec2.
   - Pre-release source = be-06: 0.5.13 + PUB-06/PUB-10 fixes + best effort + floor-on-Friday + confidence 0.3 + bank timeout 30 s.
   - Final-night command: the --final runbook at the top of this file (one per brief, new slot each).
+
+## FINAL FORMAT CHANGED (confirmed on the live page 11 Oct ~19:15 Istanbul)
+- One case: credit card statement debt, in TURKISH. Input: one zip folder (BRIEF.md first, README.md says what each file is; Word/PDF/Excel; service contract; test customers; Q&A; 6 example conversations).
+- WE host the bank mock on Cloudflare Workers. Deploy it before running the builder and keep it up until results are out.
+- Run: `cd build-the-builder && python builder/build.py {case_folder} {mock_url} 2>&1 | tee traces/final.log`
+- submission.json fields: team, members[{name,email}], repo, commit, run_command, workflow (submission/final.workflow.json), trace (traces/final.log), mock_url.
+- Repo: https://github.com/KOnurOzkan/FreyaHackathon (root = this folder). Pre-release commit: d479eb3.
+- builder/build.py: folder/zip -> builder/sources.py (md/docx/pdf/xlsx/pptx/json/yaml to text; images skipped) -> builder/service_contract.py (uses a supplied OpenAPI with servers=mock_url, else one model call maps the contract onto the 7 tools at /v1/<tool>) -> tools/complete_run.py --final -> export to submission/final.workflow.json, plus a masked trace summary.
+  - Dry run on practice A: verified_export in 461 s, 2 model calls (out/dryrun-final.log).
+- Turkish security answers: workflow_runtime fold() plus the plan's month_names ("19 Ekim 1983"), and Turkish digit words.
+- Mock: build-the-builder/mock (wrangler 4.149 local; deploy with `node node_modules/wrangler/bin/wrangler.js deploy` from mock/), live at https://freya-mock-bank.konurozkan1905.workers.dev.
+  - Per-customer state resets after close_call or 3 min idle.
+  - customers.json is a demo; fill it from the case's test customers.
+  - The user's ISP blocks *.workers.dev locally, so test with `wrangler dev`.
