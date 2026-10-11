@@ -1,0 +1,12 @@
+.env
+.env.*
+!env.example
+env.sh
+env.ps1
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+build-the-builder/out/
+build-the-builder/.freya-agents.json
+build-the-builder/.personas.json

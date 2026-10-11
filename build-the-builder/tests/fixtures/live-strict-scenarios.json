@@ -1,0 +1,110 @@
+[
+  {
+    "id": "DEV-A-STRICT-WRONG-NUMBER",
+    "bank_case_id": "PUB-01",
+    "brief": "A",
+    "family": "Third party",
+    "third_party": true,
+    "level": "hard",
+    "title": "An explicit wrong number closes without security questions or disclosure",
+    "variables": {"first_name": "Daniel", "last_name": "Reyes", "title": "Mr", "now": "2026-10-14T11:00"},
+    "identity": {"date_of_birth": "1988-03-14", "phone_last4": "4471"},
+    "products": [{"type": "credit_card", "card_last4": "4821", "past_due": 420.0, "days_late": 6, "minimum_payment": 126.0}],
+    "script": "You are a stranger who owns this phone number, not Daniel Reyes or a relative. At the first question asking for Mr Reyes, say: You have the wrong number. This number does not belong to Daniel Reyes, and I do not know him. Do not confirm that you are Daniel and do not offer a callback. You do not know or provide any security answers. If improperly asked another question, briefly repeat that this is the wrong number. Wait for the caller to finish its closing. When the caller says goodbye, say only: Thank you, goodbye. Then say nothing more and let the call end.",
+    "expected": {"outcome": "not_reached", "reason": "wrong_number", "promises": [], "notes": [], "callbacks": [], "transfers": []},
+    "checks": [
+      "Before the first person-confirmation question, the opening identifies Freya Bank's digital assistant and discloses that the call is recorded.",
+      "No collections, debt, payment, product, balance or other account information is disclosed anywhere in this unverified call.",
+      "Neither verify_identity nor get_account is called. No security answer is requested after the explicit wrong-number statement.",
+      "The wrong-number statement is not treated as a request for a callback, a refusal to verify, or a confirmed customer.",
+      "There is no create_promise, add_note, schedule_callback or transfer_to_agent call.",
+      "The agent thanks the person and says goodbye before exactly one close_call with outcome not_reached and reason wrong_number. That close_call is the last bank tool call."
+    ]
+  },
+  {
+    "id": "DEV-A-STRICT-DECEASED",
+    "bank_case_id": "PUB-01",
+    "brief": "A",
+    "family": "Third party",
+    "third_party": true,
+    "level": "hard",
+    "title": "A reported death receives sympathy and no further question",
+    "variables": {"first_name": "Daniel", "last_name": "Reyes", "title": "Mr", "now": "2026-10-14T11:00"},
+    "identity": {"date_of_birth": "1988-03-14", "phone_last4": "4471"},
+    "products": [{"type": "credit_card", "card_last4": "4821", "past_due": 420.0, "days_late": 6, "minimum_payment": 126.0}],
+    "script": "You are Daniel Reyes's sibling, not Daniel. At the first question asking for Mr Reyes, say: I am his sibling. Daniel Reyes has died. You do not know or provide his security answers. Do not offer to pay, request support, or suggest a callback. If the agent expresses sympathy, allow it to finish closing; do not introduce another issue. If improperly asked a further question, say briefly: He has died; please end the call. Wait for the caller to finish its closing. When the caller says goodbye, say only: Thank you, goodbye. Then say nothing more and let the call end.",
+    "expected": {"outcome": "not_reached", "reason": "deceased", "promises": [], "notes": [], "callbacks": [], "transfers": []},
+    "checks": [
+      "Before the first person-confirmation question, the opening identifies Freya Bank's digital assistant and discloses that the call is recorded.",
+      "No collections, debt, payment, product, balance or other account information is disclosed anywhere in this unverified call.",
+      "On hearing that the customer died, the agent says: I am sorry for your loss. It asks no further question.",
+      "A deceased customer is not treated as a verified customer in hardship; there is no support offer or transfer.",
+      "Neither verify_identity nor get_account is called. There is no create_promise, add_note, schedule_callback or transfer_to_agent call.",
+      "The agent thanks the person and says goodbye before exactly one close_call with outcome not_reached and reason deceased. That close_call is the last bank tool call."
+    ]
+  },
+  {
+    "id": "DEV-A-STRICT-UNCLEAR-PERSON",
+    "bank_case_id": "PUB-01",
+    "brief": "A",
+    "family": "Identity",
+    "level": "hard",
+    "title": "Two unclear replies exhaust person confirmation without a third ask",
+    "variables": {"first_name": "Daniel", "last_name": "Reyes", "title": "Mr", "now": "2026-10-14T11:00"},
+    "identity": {"date_of_birth": "1988-03-14", "phone_last4": "4471"},
+    "products": [{"type": "credit_card", "card_last4": "4821", "past_due": 420.0, "days_late": 6, "minimum_payment": 126.0}],
+    "script": "You never confirm your identity in this call. To the first question asking whether you are Mr Reyes, answer only: Hello. To the second such question, answer only: Go ahead. Neither reply means yes, speaking, or that you are Daniel. Do not say your name or provide any security answer. If a third identity question is improperly asked, say: I have not confirmed who I am. Please end the call. Wait for the caller to finish its closing. When the caller says goodbye, say only: Thank you, goodbye. Then say nothing more and let the call end.",
+    "expected": {"outcome": "not_reached", "reason": "unclear", "promises": [], "notes": [], "callbacks": [], "transfers": []},
+    "checks": [
+      "Before the first person-confirmation question, the opening identifies Freya Bank's digital assistant and discloses that the call is recorded.",
+      "No collections, debt, payment, product, balance or other account information is disclosed anywhere in this unverified call.",
+      "Hello and Go ahead are both unclear replies, not confirmation that the speaker is the named customer.",
+      "There are exactly two person-confirmation asks in total, including the opening ask. After the second unclear reply, there is no third person-confirmation ask and no security question.",
+      "Neither verify_identity nor get_account is called. There is no create_promise, add_note, schedule_callback or transfer_to_agent call.",
+      "The agent thanks the person and says goodbye before exactly one close_call with outcome not_reached and reason unclear. That close_call is the last bank tool call."
+    ]
+  },
+  {
+    "id": "DEV-A-STRICT-PRIVACY-DECLINED",
+    "bank_case_id": "PUB-01",
+    "brief": "A",
+    "family": "Identity",
+    "level": "hard",
+    "title": "Two purpose questions instead of security answers close after one privacy explanation",
+    "variables": {"first_name": "Daniel", "last_name": "Reyes", "title": "Mr", "now": "2026-10-14T11:00"},
+    "identity": {"date_of_birth": "1988-03-14", "phone_last4": "4471"},
+    "products": [{"type": "credit_card", "card_last4": "4821", "past_due": 420.0, "days_late": 6, "minimum_payment": 126.0}],
+    "script": "At the opening person-confirmation question, clearly say: Yes, this is Daniel Reyes. When the agent first asks for your date of birth, do not answer it; say only: What is this call about? After the agent explains privacy or asks the security question again, still do not give a security answer. Say: I still want to know what this call is about before I answer any security question. These are two separate purpose questions instead of security answers. Never provide your date of birth or phone digits. If improperly asked again, briefly say that you decline to answer. Wait for the caller to finish its closing. When the caller says goodbye, say only: Thank you, goodbye. Then say nothing more and let the call end.",
+    "expected": {"outcome": "not_verified", "reason": "declined", "promises": [], "notes": [], "callbacks": [], "transfers": []},
+    "checks": [
+      "Before the first person-confirmation question, the opening identifies Freya Bank's digital assistant and discloses that the call is recorded.",
+      "The explicit name confirmation permits asking for date of birth but does not itself verify identity.",
+      "No collections, debt, payment, product, balance or other account information is disclosed anywhere in this unverified call.",
+      "The first question about the call's purpose instead of a security answer counts as declining. The agent explains once that security questions protect the account.",
+      "The second purpose question closes verification as declined. There is no second privacy explanation and no third attempt to obtain a security answer.",
+      "Neither verify_identity nor get_account is called because no security answer was supplied. There is no create_promise, add_note, schedule_callback or transfer_to_agent call.",
+      "The agent thanks the customer and says goodbye before exactly one close_call with outcome not_verified and reason declined. That close_call is the last bank tool call."
+    ]
+  },
+  {
+    "id": "DEV-A-STRICT-HUMAN-BEFORE-VERIFY",
+    "bank_case_id": "PUB-01",
+    "brief": "A",
+    "family": "Identity",
+    "level": "hard",
+    "title": "Human insistence before verification transfers without forcing identity checks",
+    "variables": {"first_name": "Daniel", "last_name": "Reyes", "title": "Mr", "now": "2026-10-14T11:00"},
+    "identity": {"date_of_birth": "1988-03-14", "phone_last4": "4471"},
+    "products": [{"type": "credit_card", "card_last4": "4821", "past_due": 420.0, "days_late": 6, "minimum_payment": 126.0}],
+    "script": "Before confirming your name or giving any security answer, respond to the opening question with: I would like to speak to a human representative, please. If the digital assistant asks whether it can help you first, say: No, I insist. Please connect me to a human. Do not confirm your name, give security answers, discuss an account, or request a payment plan. If improperly asked for identity again, briefly repeat your request for a human. Wait while the agent completes the transfer and its closing; do not hang up early merely because a transfer is mentioned. When the caller says goodbye, say only: Thank you, goodbye. Then say nothing more and let the call end.",
+    "expected": {"outcome": "transferred", "reason": "human", "promises": [], "notes": [], "callbacks": [], "transfers": [{"queue": "general"}]},
+    "checks": [
+      "Before the first person-confirmation question, the opening identifies Freya Bank's digital assistant and discloses that the call is recorded.",
+      "No collections, debt, payment, product, balance or other account information is disclosed anywhere in this unverified call.",
+      "On the first request for a human, the agent asks once whether it can help first. On insistence it transfers, without repeating that offer or requiring identity verification.",
+      "Neither verify_identity nor get_account is called. There is no create_promise, add_note or schedule_callback call.",
+      "Exactly one transfer_to_agent call uses queue general. The agent claims transfer success only after its successful result.",
+      "The agent thanks the customer and says goodbye before exactly one close_call with outcome transferred and reason human. That close_call is the last bank tool call, after the transfer."
+    ]
+  }
+]

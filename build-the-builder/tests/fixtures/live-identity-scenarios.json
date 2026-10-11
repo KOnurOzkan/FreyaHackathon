@@ -1,0 +1,94 @@
+[
+  {
+    "id": "DEV-A-IDENTITY-CUMULATIVE-THREE",
+    "brief": "A",
+    "family": "Identity",
+    "level": "hard",
+    "title": "The third wrong answer across birth date and phone digits ends verification",
+    "variables": {
+      "first_name": "Owen",
+      "last_name": "Park",
+      "title": "Mr",
+      "now": "2026-10-14T11:00"
+    },
+    "identity": {
+      "date_of_birth": "1992-07-21",
+      "phone_last4": "6630"
+    },
+    "products": [
+      {
+        "type": "credit_card",
+        "card_last4": "0377",
+        "past_due": 95.0,
+        "days_late": 4,
+        "minimum_payment": 28.5
+      }
+    ],
+    "script": "At the opening question, clearly say: Yes, this is Owen Park. Give each answer only after the caller asks the corresponding security question; never provide both security answers in one turn. When first asked for your date of birth, mistakenly say: Twelve July nineteen ninety-one. When asked again for your date of birth, correct yourself: Twenty-one July nineteen ninety-two. When first asked for the last four phone digits, mistakenly say: Six six zero three. If the phone question is repeated, say: Six six zero four. Do not volunteer the correct phone digits or introduce a payment discussion. After that second phone answer, allow the caller to finish. If it improperly asks for another security answer, say: I have already given the answers I remember. Please end the call. When the caller says goodbye, say only: Thank you, goodbye. Then say nothing more and let the call end.",
+    "expected": {
+      "outcome": "not_verified",
+      "reason": "failed",
+      "promises": [],
+      "notes": [],
+      "callbacks": [],
+      "transfers": []
+    },
+    "checks": [
+      "Before the first person-confirmation question, the opening identifies Freya Bank's digital assistant and discloses that the call is recorded.",
+      "The customer confirms the name before security questions. Date of birth and phone digits are asked separately, in that order.",
+      "There are exactly four verify_identity calls: wrong date 1991-07-12, correct date 1992-07-21, wrong phone digits 6603, wrong phone digits 6604. The passing birth-date answer does not reset the cumulative wrong-answer count.",
+      "The first wrong birth date leaves two wrong answers remaining; the correct birth date still leaves two; the two wrong phone answers leave one and then zero.",
+      "Immediately after the third wrong answer in total, verification ends. There is no fifth verify_identity call, no further security question, and no get_account call.",
+      "No collections, debt, payment, product, balance or other account information is disclosed anywhere in this unverified call.",
+      "The customer is told to use the mobile app or a branch. There is no create_promise, add_note, schedule_callback or transfer_to_agent call.",
+      "The agent thanks the customer and says goodbye before exactly one close_call with outcome not_verified and reason failed. That close_call is the last bank tool call."
+    ],
+    "bank_case_id": "PUB-03"
+  },
+  {
+    "id": "DEV-A-IDENTITY-SWAPPED-NONCOUNTING",
+    "brief": "A",
+    "family": "Identity",
+    "level": "hard",
+    "title": "A swapped birth date receives a noncounting month-in-words retry",
+    "variables": {
+      "first_name": "Samuel",
+      "last_name": "Ortiz",
+      "title": "Mr",
+      "now": "2026-10-14T11:00"
+    },
+    "identity": {
+      "date_of_birth": "1975-12-05",
+      "phone_last4": "7093"
+    },
+    "products": [
+      {
+        "type": "personal_loan",
+        "past_due": 540.0,
+        "days_late": 5,
+        "instalment_amount": 180.0
+      }
+    ],
+    "script": "At the opening question, clearly say: Yes, this is Samuel Ortiz. Give each answer only after its own security question. When first asked for your date of birth, mix up the day and month and say only the numeric date: 12/05/1975. Do not explain the mix-up yet. When the caller asks you to repeat or clarify your birth date, say: The fifth of December, nineteen seventy-five. When first asked for the last four phone digits, mistakenly say: Seven zero nine two. If that phone question is repeated, say: Seven zero eight three. If asked for the phone digits again, correct yourself: Sorry, it is seven zero nine three. After the caller completes verification and tells you about the account, say: I already paid this past-due amount in the app this morning. You mean this current overdue amount, not a product that was closed or paid off in the past. Do not agree to a new payment promise, ask for a transfer, or ask unrelated questions. Allow the caller to explain and finish. When the caller says goodbye, say only: Thank you, goodbye. Then say nothing more and let the call end.",
+    "expected": {
+      "outcome": "paid",
+      "reason": null,
+      "promises": [],
+      "notes": [],
+      "callbacks": [],
+      "transfers": []
+    },
+    "checks": [
+      "Before the first person-confirmation question, the opening identifies Freya Bank's digital assistant and discloses that the call is recorded.",
+      "The customer confirms the name before security questions. Date of birth and phone digits are asked separately, in that order.",
+      "The first numeric date is interpreted as day/month/year and sent to verify_identity as 1975-05-12. The bank returns hint day_month_swapped. The agent asks the customer to say the month as a word and stays on the birth-date question.",
+      "The day_month_swapped hint consumes no wrong answer: wrong_answers_left remains three. The month-in-words correction is sent as 1975-12-05 and passes, still leaving three.",
+      "Two ordinary wrong phone answers, 7092 and then 7083, leave two and then one wrong answer remaining. The agent asks the phone question again without re-asking the passed birth date. Correct digits 7093 then pass with one wrong answer remaining.",
+      "There are exactly five verify_identity calls in the order birth date, birth date, phone digits, phone digits, phone digits. The hint must not cause premature closure after the second wrong phone answer.",
+      "No collections, debt, payment, product, balance or other account information is disclosed before both security checks pass. Exactly one get_account call occurs afterward, never earlier.",
+      "When the customer says the current past-due amount was paid this morning, the agent explains that payments can take one business day to appear. It records no new promise and makes no add_note, schedule_callback or transfer_to_agent call.",
+      "The agent thanks the customer and says goodbye before exactly one close_call with outcome paid and no reason. That close_call is the last bank tool call."
+    ],
+    "bank_case_id": "PUB-07"
+  }
+]

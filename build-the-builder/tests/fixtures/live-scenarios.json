@@ -1,0 +1,529 @@
+[
+  {
+    "id": "DEV-A-HARDSHIP-SUPPORT",
+    "brief": "A",
+    "family": "Hardship",
+    "level": "hard",
+    "title": "A voluntary offer does not authorize recording before support transfer",
+    "variables": {
+      "first_name": "Tomas",
+      "last_name": "Novak",
+      "title": "Mr",
+      "now": "2026-10-14T11:00"
+    },
+    "identity": {
+      "date_of_birth": "1990-09-09",
+      "phone_last4": "8846"
+    },
+    "products": [
+      {
+        "type": "personal_loan",
+        "past_due": 780.0,
+        "days_late": 21,
+        "instalment_amount": 260.0
+      }
+    ],
+    "script": "Clearly confirm your own name when asked. Answer both security questions correctly when asked. When first asked about payment, say: I lost my job, but I could pay three hundred this Friday. If offered the support team, say: Yes, please connect me to support. You want that transfer; you do not confirm any payment read-back. If asked whether you want to confirm a promise instead, repeat that you want the support team.",
+    "expected": {
+      "outcome": "transferred",
+      "reason": "support",
+      "promises": [],
+      "notes": [],
+      "callbacks": [],
+      "transfers": [
+        {
+          "queue": "support"
+        }
+      ]
+    },
+    "checks": [
+      "No account details are disclosed before both security checks pass.",
+      "Exactly one close_call occurs and it is the last bank tool call.",
+      "The agent expresses sympathy and makes no persuasion attempt.",
+      "Support acceptance causes a support transfer.",
+      "No promise is created from the voluntary offer, because no promise read-back was confirmed."
+    ],
+    "bank_case_id": "PUB-05"
+  },
+  {
+    "id": "DEV-A-HARDSHIP-CORRECTION",
+    "brief": "A",
+    "family": "Hardship",
+    "level": "hard",
+    "title": "A voluntary partial amount survives a corrected payment date",
+    "variables": {
+      "first_name": "Tomas",
+      "last_name": "Novak",
+      "title": "Mr",
+      "now": "2026-10-14T11:00"
+    },
+    "identity": {
+      "date_of_birth": "1990-09-09",
+      "phone_last4": "8846"
+    },
+    "products": [
+      {
+        "type": "personal_loan",
+        "past_due": 780.0,
+        "days_late": 21,
+        "instalment_amount": 260.0
+      }
+    ],
+    "script": "Clearly confirm your own name when asked. Answer both security questions correctly when asked. When first asked about payment, say: I lost my job, but I can pay three hundred tomorrow. Decline the support transfer when offered: No transfer, please; I still want to arrange the payment I offered. At the first payment read-back, correct only the date: Actually, make it this Friday instead. Keep the amount at three hundred. When a new full read-back says three hundred on Friday the sixteenth of October, clearly confirm it. Do not agree to a different amount.",
+    "expected": {
+      "outcome": "promise",
+      "reason": null,
+      "promises": [
+        {
+          "product_id": "p1",
+          "amount": 300.0,
+          "date": "2026-10-16"
+        }
+      ],
+      "notes": [],
+      "callbacks": [],
+      "transfers": []
+    },
+    "checks": [
+      "No account details are disclosed before both security checks pass.",
+      "Exactly one close_call occurs and it is the last bank tool call.",
+      "Hardship receives sympathy and no persuasion.",
+      "The support offer occurs once; its rejection does not discard the voluntary proposal.",
+      "The date correction retains the offered amount of 300.",
+      "The revised amount and date are read back together and separately confirmed before the single promise write."
+    ],
+    "bank_case_id": "PUB-05"
+  },
+  {
+    "id": "DEV-A-READBACK-FLOOR",
+    "brief": "A",
+    "family": "Happy path",
+    "level": "hard",
+    "title": "A below-floor correction requires a new offer and confirmation",
+    "variables": {
+      "first_name": "Daniel",
+      "last_name": "Reyes",
+      "title": "Mr",
+      "now": "2026-10-14T11:00"
+    },
+    "identity": {
+      "date_of_birth": "1988-03-14",
+      "phone_last4": "4471"
+    },
+    "products": [
+      {
+        "type": "credit_card",
+        "card_last4": "4821",
+        "past_due": 420.0,
+        "days_late": 6,
+        "minimum_payment": 126.0
+      }
+    ],
+    "script": "Clearly confirm your own name when asked. Answer both security questions correctly when asked. When asked about payment, offer the full balance this Friday. At the first complete payment read-back, say: Actually, I can only pay ninety on that same Friday. If the agent explains the minimum of one hundred and twenty-six and that the rest remains overdue, accept that minimum for Friday. Confirm only after a new complete read-back states one hundred and twenty-six on Friday the sixteenth of October. Your acceptance of the minimum offer is not yet your confirmation of the complete read-back.",
+    "expected": {
+      "outcome": "promise",
+      "reason": null,
+      "promises": [
+        {
+          "product_id": "p1",
+          "amount": 126.0,
+          "date": "2026-10-16"
+        }
+      ],
+      "notes": [],
+      "callbacks": [],
+      "transfers": []
+    },
+    "checks": [
+      "No account details are disclosed before both security checks pass.",
+      "Exactly one close_call occurs and it is the last bank tool call.",
+      "The proposed 90 is rejected as below the floor and is never recorded.",
+      "The agent offers the floor once and explains that the remainder stays overdue.",
+      "Neither the original full amount nor the replacement floor is written before a separate confirmed complete read-back."
+    ],
+    "bank_case_id": "PUB-01"
+  },
+  {
+    "id": "DEV-A-VAGUE-YES",
+    "brief": "A",
+    "family": "Happy path",
+    "level": "hard",
+    "title": "A bare yes to a date clarification cannot confirm a stale draft",
+    "variables": {
+      "first_name": "Daniel",
+      "last_name": "Reyes",
+      "title": "Mr",
+      "now": "2026-10-14T11:00"
+    },
+    "identity": {
+      "date_of_birth": "1988-03-14",
+      "phone_last4": "4471"
+    },
+    "products": [
+      {
+        "type": "credit_card",
+        "card_last4": "4821",
+        "past_due": 420.0,
+        "days_late": 6,
+        "minimum_payment": 126.0
+      }
+    ],
+    "script": "Clearly confirm your own name when asked. Answer both security questions correctly when asked. When asked about payment, offer the full balance this Friday. At the first complete read-back, say: Actually, sometime next week instead. The first time you are asked for the exact day, answer only: Yes. That answer does not name a day. If the agent then proposes its latest permitted day, accept that date. Confirm only after a new complete read-back gives the full amount and Monday the second of November. Do not confirm a read-back that still says the earlier Friday.",
+    "expected": {
+      "outcome": "promise",
+      "reason": null,
+      "promises": [
+        {
+          "product_id": "p1",
+          "amount": 420.0,
+          "date": "2026-11-02"
+        }
+      ],
+      "notes": [],
+      "callbacks": [],
+      "transfers": []
+    },
+    "checks": [
+      "No account details are disclosed before both security checks pass.",
+      "Exactly one close_call occurs and it is the last bank tool call.",
+      "A vague correction invalidates the previously proposed Friday date.",
+      "A bare yes answering an exact-day clarification does not authorize a write.",
+      "After no exact day is supplied, the deadline is proposed and a complete new read-back receives separate confirmation."
+    ],
+    "bank_case_id": "PUB-01"
+  },
+  {
+    "id": "DEV-B-UNCLEAR-PRODUCT",
+    "brief": "B",
+    "family": "Multi-product",
+    "level": "hard",
+    "title": "Clarifying an ambiguous product must not repeat the all-today question",
+    "variables": {
+      "first_name": "Marcus",
+      "last_name": "Bell",
+      "title": "Mr",
+      "now": "2026-10-14T11:00"
+    },
+    "identity": {
+      "date_of_birth": "1983-10-19",
+      "phone_last4": "4410"
+    },
+    "products": [
+      {
+        "type": "credit_card",
+        "card_last4": "9015",
+        "past_due": 510.0,
+        "days_late": 16,
+        "minimum_payment": 153.0
+      },
+      {
+        "type": "personal_loan",
+        "past_due": 1320.0,
+        "days_late": 16,
+        "instalment_amount": 440.0
+      },
+      {
+        "type": "car_loan",
+        "past_due": 140.0,
+        "days_late": 7,
+        "instalment_amount": 46.0
+      }
+    ],
+    "script": "Clearly confirm your own name when asked. Answer both security questions correctly when asked. When asked whether you can pay every product today, say: I can pay that account tomorrow. You have not yet identified which account. If asked which account, clarify: I mean the credit card ending nine zero one five. If the agent guesses a loan, correct it to the credit card. For either loan, always refuse every payment offer. When the credit-card promise alone is read back for tomorrow, confirm it.",
+    "expected": {
+      "outcome": "promise",
+      "reason": null,
+      "promises": [
+        {
+          "product_id": "p1",
+          "amount": 510.0,
+          "date": "2026-10-15"
+        }
+      ],
+      "notes": [
+        {
+          "product_id": "p2",
+          "reason": "refused"
+        },
+        {
+          "product_id": "p3",
+          "reason": "refused"
+        }
+      ],
+      "callbacks": [],
+      "transfers": []
+    },
+    "checks": [
+      "No account details are disclosed before both security checks pass.",
+      "Exactly one close_call occurs and it is the last bank tool call.",
+      "All products are announced before asking about payment.",
+      "The all-products-today question is asked exactly once.",
+      "The ambiguous account reference is clarified before a product-specific promise is agreed; no product ID is invented.",
+      "Each refused loan gets exactly its allowed persuasion attempts and a refused note: days_late 1 to 7 permits one attempt, and 8 to 45 permits two. Stop when that product limit is exhausted; do not demand two attempts for every loan."
+    ],
+    "bank_case_id": "PUB-12"
+  },
+  {
+    "id": "DEV-B-MIXED-TRANSFER",
+    "brief": "B",
+    "family": "Multi-product",
+    "level": "hard",
+    "title": "A later restructuring transfer prevents earlier paid or dispute notes",
+    "variables": {
+      "first_name": "Sofia",
+      "last_name": "Almeida",
+      "title": "Ms",
+      "now": "2026-10-14T11:00"
+    },
+    "identity": {
+      "date_of_birth": "1987-06-03",
+      "phone_last4": "2288"
+    },
+    "products": [
+      {
+        "type": "credit_card",
+        "card_last4": "2288",
+        "past_due": 220.0,
+        "days_late": 9,
+        "minimum_payment": 66.0
+      },
+      {
+        "type": "personal_loan",
+        "past_due": 640.0,
+        "days_late": 9,
+        "instalment_amount": 213.0
+      },
+      {
+        "type": "car_loan",
+        "past_due": 75.0,
+        "days_late": 3,
+        "instalment_amount": 25.0
+      }
+    ],
+    "script": "Clearly confirm your own name when asked. Answer both security questions correctly when asked. When first asked about all products, say that you already paid the credit-card arrears in the app this morning. When the personal loan is discussed, say: That personal loan was closed and paid off years ago; I dispute that balance. When the car loan is discussed, ask for a new payment plan with lower instalments. You want the restructuring team. Do not agree to or confirm any payment promise.",
+    "expected": {
+      "outcome": "transferred",
+      "reason": "restructuring",
+      "promises": [],
+      "notes": [],
+      "callbacks": [],
+      "transfers": [
+        {
+          "queue": "restructuring"
+        }
+      ]
+    },
+    "checks": [
+      "No account details are disclosed before both security checks pass.",
+      "Exactly one close_call occurs and it is the last bank tool call.",
+      "A paid claim on the first product and a dispute on the second do not end discussion of the remaining product.",
+      "The later request for lower instalments triggers restructuring transfer.",
+      "No notes are added at any point in this call, before or after the transfer.",
+      "No promise is recorded and the agent invents no restructuring terms."
+    ],
+    "bank_case_id": "PUB-11"
+  },
+  {
+    "id": "DEV-A-FRIDAY-NOW",
+    "brief": "A",
+    "family": "Happy path",
+    "level": "hard",
+    "title": "Supplied Friday changes the first refusal offer to next Friday",
+    "variables": {
+      "first_name": "Daniel",
+      "last_name": "Reyes",
+      "title": "Mr",
+      "now": "2026-10-14T11:00"
+    },
+    "identity": {
+      "date_of_birth": "1988-03-14",
+      "phone_last4": "4471"
+    },
+    "products": [
+      {
+        "type": "credit_card",
+        "card_last4": "4821",
+        "past_due": 420.0,
+        "days_late": 6,
+        "minimum_payment": 126.0
+      }
+    ],
+    "script": "Clearly confirm your own name when asked. Answer both security questions correctly when asked. When first asked to pay today, say: No, I cannot pay today. Give no date or amount with that refusal. Accept the full balance when the agent offers Friday the twenty-third of October. Confirm the full read-back for that date. Do not agree to paying today, Friday the sixteenth.",
+    "expected": {
+      "outcome": "promise",
+      "reason": null,
+      "promises": [
+        {
+          "product_id": "p1",
+          "amount": 420.0,
+          "date": "2026-10-23"
+        }
+      ],
+      "notes": [],
+      "callbacks": [],
+      "transfers": []
+    },
+    "checks": [
+      "No account details are disclosed before both security checks pass.",
+      "Exactly one close_call occurs and it is the last bank tool call.",
+      "All dates are based on supplied now, Friday 16 October 2026.",
+      "The first refusal offer is the last business day of next week, Friday 23 October, because today is this week's last business day.",
+      "The offered date is separately read back and confirmed before recording."
+    ],
+    "bank_case_id": "PUB-01",
+    "variable_overrides": {
+      "now": "2026-10-16T11:00"
+    }
+  },
+  {
+    "id": "DEV-B-SHARED-WEEKEND-CORRECTION",
+    "brief": "B",
+    "family": "Multi-product",
+    "level": "hard",
+    "title": "A shared weekend correction preserves all three independently agreed partial amounts",
+    "variables": {
+      "first_name": "Marcus",
+      "last_name": "Bell",
+      "title": "Mr",
+      "now": "2026-10-14T11:00"
+    },
+    "identity": {
+      "date_of_birth": "1983-10-19",
+      "phone_last4": "4410"
+    },
+    "products": [
+      {
+        "type": "credit_card",
+        "card_last4": "9015",
+        "past_due": 510.0,
+        "days_late": 16,
+        "minimum_payment": 153.0
+      },
+      {
+        "type": "personal_loan",
+        "past_due": 1320.0,
+        "days_late": 16,
+        "instalment_amount": 440.0
+      },
+      {
+        "type": "car_loan",
+        "past_due": 140.0,
+        "days_late": 7,
+        "instalment_amount": 46.0
+      }
+    ],
+    "script": "Clearly confirm your own name and answer security questions correctly when asked. When asked about paying all products today, say only: No, I cannot pay all of them today. Then discuss products in the order the agent offers them. For the credit card, offer two hundred this Friday. For the personal loan, offer five hundred this Friday. For the car loan, offer sixty this Friday. You mean these as three separate amounts, not a total. Wait for the first complete combined read-back of all three products. Instead of confirming it, say: Actually, move all three payments to Saturday the seventeenth of October. Keep each amount exactly as we agreed. If told Saturday is not a business day and offered Monday the nineteenth, accept that adjustment for all three. Confirm only after a new combined read-back states the credit card two hundred, personal loan five hundred, and car loan sixty, all on Monday the nineteenth of October. Correct any lost product or changed amount, and do not confirm an earlier Friday read-back.",
+    "expected": {
+      "outcome": "promise",
+      "reason": null,
+      "promises": [
+        {
+          "product_id": "p1",
+          "amount": 200.0,
+          "date": "2026-10-19"
+        },
+        {
+          "product_id": "p2",
+          "amount": 500.0,
+          "date": "2026-10-19"
+        },
+        {
+          "product_id": "p3",
+          "amount": 60.0,
+          "date": "2026-10-19"
+        }
+      ],
+      "notes": [],
+      "callbacks": [],
+      "transfers": []
+    },
+    "checks": [
+      "No account information before both identity checks pass.",
+      "All three products are announced before any payment question; the all-today question occurs once.",
+      "Each voluntary amount is handled without treating it as a refusal.",
+      "A shared date-only correction retains all three pending products and their distinct amounts: 200, 500, and 60.",
+      "Saturday17October is adjusted to next business dayMonday19October, with the adjustment explained.",
+      "The corrected product amounts and dates are read back together and receive a fresh confirmation before any create_promise.",
+      "Exactly three promises are recorded with authoritative product IDs; none uses the supersededFriday date.",
+      "No notes or transfers are made; one close_call with promise is the last bank tool, after thanks and goodbye."
+    ],
+    "bank_case_id": "PUB-12"
+  },
+  {
+    "id": "DEV-B-MIXED-DEADLINE-CORRECTION",
+    "brief": "B",
+    "family": "Multi-product",
+    "level": "hard",
+    "title": "A shared read-back correction applies separate deadlines using a changed supplied date",
+    "variables": {
+      "first_name": "Sofia",
+      "last_name": "Almeida",
+      "title": "Ms",
+      "now": "2026-10-14T11:00"
+    },
+    "identity": {
+      "date_of_birth": "1987-06-03",
+      "phone_last4": "2288"
+    },
+    "products": [
+      {
+        "type": "credit_card",
+        "card_last4": "2288",
+        "past_due": 220.0,
+        "days_late": 9,
+        "minimum_payment": 66.0
+      },
+      {
+        "type": "personal_loan",
+        "past_due": 640.0,
+        "days_late": 9,
+        "instalment_amount": 213.0
+      },
+      {
+        "type": "car_loan",
+        "past_due": 75.0,
+        "days_late": 3,
+        "instalment_amount": 25.0
+      }
+    ],
+    "script": "Clearly confirm your own name and answer security questions correctly when asked. When asked to pay all products today, say: I can pay all three in full on Tuesday the twenty-seventh of October. Wait for a complete combined read-back for that date. Instead of confirming, say: Actually, move all three to Monday the ninth of November. Keep all the amounts unchanged. If told the credit card and personal loan have an earlier deadline, accept Wednesday the fourth of November for those two while keeping Monday the ninth of November for the car loan. You do not want every product forced onto the earlier date. Confirm only after a new combined read-back states two hundred and twenty for the credit card and six hundred and forty for the personal loan on the fourth of November, and seventy-five for the car loan on the ninth of November. Do not confirm or authorize recording the earlier October date.",
+    "expected": {
+      "outcome": "promise",
+      "reason": null,
+      "promises": [
+        {
+          "product_id": "p1",
+          "amount": 220.0,
+          "date": "2026-11-04"
+        },
+        {
+          "product_id": "p2",
+          "amount": 640.0,
+          "date": "2026-11-04"
+        },
+        {
+          "product_id": "p3",
+          "amount": 75.0,
+          "date": "2026-11-09"
+        }
+      ],
+      "notes": [],
+      "callbacks": [],
+      "transfers": []
+    },
+    "checks": [
+      "No account information before both identity checks pass.",
+      "All three products are announced before any payment question; the all-today question occurs once.",
+      "Calendar calculations use supplied now23October2026, not the practice fixture originalnow14October or the real clock.",
+      "The late-band products have deadline4November; the early-band car loan has deadline12November, excluding26October and11November holidays.",
+      "The shared correction to9November caps only credit card and personal loan at their own4November deadline; the car loan retains9November.",
+      "Each capped date is disclosed in the new combined read-back, with all original amounts unchanged.",
+      "No promise is written on superseded27October or before fresh confirmation of all three final products, amounts and dates.",
+      "Exactly one successful create_promise per product; no notes or transfers; final bank tool is one close_call with promise after thanks and goodbye."
+    ],
+    "bank_case_id": "PUB-11",
+    "variable_overrides": {
+      "now": "2026-10-23T11:00"
+    }
+  }
+]

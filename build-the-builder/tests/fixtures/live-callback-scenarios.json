@@ -1,0 +1,144 @@
+[
+  {
+    "id": "DEV-A-CALLBACK-TIME-ONLY",
+    "brief": "A",
+    "family": "Third party",
+    "level": "hard",
+    "title": "Two invalid time-only callback proposals exhaust the one correction",
+    "variables": {
+      "first_name": "Maria",
+      "last_name": "Costa",
+      "title": "Ms",
+      "now": "2026-10-14T11:00"
+    },
+    "identity": {
+      "date_of_birth": "1979-11-02",
+      "phone_last4": "0358"
+    },
+    "products": [
+      {
+        "type": "personal_loan",
+        "past_due": 310.5,
+        "days_late": 11,
+        "instalment_amount": 103.5
+      }
+    ],
+    "script": "You are Maria Costa's husband. When asked whether you are Ms Costa, say: No, I am her husband; Maria is not here. When first asked when Maria can be reached, answer only: At eight in the evening. Do not name a day. On the first further question asking for a callback day or time, answer only: Then nine in the evening. Again do not name a day. Both times are your own proposals, not yes answers to an agent offer. You have no other availability to offer. If incorrectly asked a third time, say: I have already given you the two times she can take a call. Never provide Maria's security answers or agree to an invented different callback slot.",
+    "expected": {
+      "outcome": "not_reached",
+      "reason": "no_callback",
+      "promises": [],
+      "notes": [],
+      "callbacks": [],
+      "transfers": []
+    },
+    "checks": [
+      "The opening identifies Freya Bank's digital assistant and discloses recording before asking for the customer.",
+      "The person on the line clearly identifies himself as Maria Costa's husband; no security question is asked and verify_identity and get_account are never called.",
+      "No reason for the call, collections, payment, product, account amount or debt is disclosed to the relative.",
+      "No promise, note or transfer is recorded. The agent thanks the person and says goodbye before exactly one close_call, which is the last bank tool call.",
+      "The transcript must contain two distinct time-only proposals: 20:00 followed by 21:00, with no customer-supplied day. A run that does not exercise that sequence does not establish this scenario.",
+      "Under Brief A rule 7, the first out-of-window time prompts exactly one request for another time even though its date is missing. After the second out-of-window time, the agent does not ask for a third proposal or a missing date.",
+      "schedule_callback is never called, no callback slot is invented, and close_call uses not_reached / no_callback."
+    ],
+    "bank_case_id": "PUB-02",
+    "third_party": true
+  },
+  {
+    "id": "DEV-A-CALLBACK-DATE-ONLY",
+    "brief": "A",
+    "family": "Third party",
+    "level": "hard",
+    "title": "Two invalid date-only callback proposals exhaust the one correction",
+    "variables": {
+      "first_name": "Maria",
+      "last_name": "Costa",
+      "title": "Ms",
+      "now": "2026-10-14T11:00"
+    },
+    "identity": {
+      "date_of_birth": "1979-11-02",
+      "phone_last4": "0358"
+    },
+    "products": [
+      {
+        "type": "personal_loan",
+        "past_due": 310.5,
+        "days_late": 11,
+        "instalment_amount": 103.5
+      }
+    ],
+    "script": "You are Maria Costa's husband. When asked whether you are Ms Costa, say: No, I am her husband; Maria is not here. When first asked when Maria can be reached, answer only: Saturday the seventeenth of October. Do not give a time. On the first further question asking for a callback day or time, answer only: Then Sunday the eighteenth of October. Again give no time. You have no other availability to offer. If incorrectly asked a third time, say: Those are the only two days I can suggest. Never provide Maria's security answers or agree to an invented different callback slot.",
+    "expected": {
+      "outcome": "not_reached",
+      "reason": "no_callback",
+      "promises": [],
+      "notes": [],
+      "callbacks": [],
+      "transfers": []
+    },
+    "checks": [
+      "The opening identifies Freya Bank's digital assistant and discloses recording before asking for the customer.",
+      "The person on the line clearly identifies himself as Maria Costa's husband; no security question is asked and verify_identity and get_account are never called.",
+      "No reason for the call, collections, payment, product, account amount or debt is disclosed to the relative.",
+      "No promise, note or transfer is recorded. The agent thanks the person and says goodbye before exactly one close_call, which is the last bank tool call.",
+      "The transcript must contain two distinct date-only proposals: 2026-10-17 followed by 2026-10-18, with no customer-supplied time. A run that does not exercise that sequence does not establish this scenario.",
+      "The supplied now is Wednesday 2026-10-14 at 11:00. Both proposed days are outside today or the next business day, Thursday 2026-10-15. The dates cannot become valid merely by choosing an allowed time.",
+      "Under Brief A rule 7, the first invalid day prompts exactly one request for another time even though its time is missing. After the second invalid day, the agent does not ask for a third proposal or a missing time.",
+      "schedule_callback is never called, no callback slot is invented, and close_call uses not_reached / no_callback."
+    ],
+    "bank_case_id": "PUB-02",
+    "third_party": true
+  },
+  {
+    "id": "DEV-A-CALLBACK-PARTIAL-VALID",
+    "brief": "A",
+    "family": "Third party",
+    "level": "hard",
+    "title": "A valid day followed separately by its time completes one callback",
+    "variables": {
+      "first_name": "Maria",
+      "last_name": "Costa",
+      "title": "Ms",
+      "now": "2026-10-14T11:00"
+    },
+    "identity": {
+      "date_of_birth": "1979-11-02",
+      "phone_last4": "0358"
+    },
+    "products": [
+      {
+        "type": "personal_loan",
+        "past_due": 310.5,
+        "days_late": 11,
+        "instalment_amount": 103.5
+      }
+    ],
+    "script": "You are Maria Costa's husband. When asked whether you are Ms Costa, say: No, I am her husband; Maria is not here. When first asked when Maria can be reached, answer only: Tomorrow. Do not include a time yet. When asked for the missing time, answer only: Eleven in the morning. You mean tomorrow at eleven, not today. If the complete slot is read back, confirm it. Never provide Maria's security answers and do not suggest a different day or time.",
+    "expected": {
+      "outcome": "not_reached",
+      "reason": "callback",
+      "promises": [],
+      "notes": [],
+      "callbacks": [
+        {
+          "date": "2026-10-15",
+          "time": "11:00"
+        }
+      ],
+      "transfers": []
+    },
+    "checks": [
+      "The opening identifies Freya Bank's digital assistant and discloses recording before asking for the customer.",
+      "The person on the line clearly identifies himself as Maria Costa's husband; no security question is asked and verify_identity and get_account are never called.",
+      "No reason for the call, collections, payment, product, account amount or debt is disclosed to the relative.",
+      "No promise, note or transfer is recorded. The agent thanks the person and says goodbye before exactly one close_call, which is the last bank tool call.",
+      "The transcript must contain the valid day tomorrow followed in a separate reply by eleven in the morning. A run that obtains a full slot in the first reply does not establish partial-slot handling.",
+      "The agent asks for the missing time without treating the valid partial day as an invalid proposal, and does not invent a time before the relative supplies one.",
+      "The retained day is Thursday 2026-10-15, not today. schedule_callback occurs exactly once for 2026-10-15 at 11:00; the complete slot is later than supplied now and inside the inclusive 10:00-19:00 window.",
+      "The agent claims that a callback is arranged only after its tool result succeeds, then closes as not_reached / callback."
+    ],
+    "bank_case_id": "PUB-02",
+    "third_party": true
+  }
+]

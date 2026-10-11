@@ -1,0 +1,128 @@
+[
+  {
+    "id": "DEV-A-KNOWN-FACTS",
+    "brief": "A",
+    "family": "Happy path",
+    "level": "hard",
+    "title": "Two factual questions preserve the offer before a voluntary Friday promise",
+    "variables": {
+      "first_name": "Daniel",
+      "last_name": "Reyes",
+      "title": "Mr",
+      "now": "2026-10-14T11:00"
+    },
+    "identity": {
+      "date_of_birth": "1988-03-14",
+      "phone_last4": "4471"
+    },
+    "products": [
+      {
+        "type": "credit_card",
+        "card_last4": "4821",
+        "past_due": 420.0,
+        "days_late": 6,
+        "minimum_payment": 126.0
+      }
+    ],
+    "script": "Clearly confirm your own name and answer both security questions correctly when asked. After the agent states the account and asks about paying today, ask once: What is the minimum payment I can promise? After the agent answers, ask once: What is the latest date I can promise for this account? These are questions only, not refusals and not agreements to any payment. After the second answer, voluntarily say: I can pay the full balance this Friday. Clearly confirm after a complete read-back gives the credit card full balance on Friday the sixteenth of October. Do not repeat either question or insist on fixed wording from the agent. Do not agree to a payment before that final read-back.",
+    "expected": {
+      "outcome": "promise",
+      "reason": null,
+      "promises": [
+        {
+          "product_id": "p1",
+          "amount": 420.0,
+          "date": "2026-10-16"
+        }
+      ],
+      "notes": [],
+      "callbacks": [],
+      "transfers": []
+    },
+    "checks": [
+      "No account details are disclosed before both security checks pass.",
+      "The minimum-payment question receives the tool-backed credit-card minimum 126.00, identified with the credit card ending 4821; it is not called unavailable.",
+      "The deadline question receives 2 November 2026 for the credit card, based on supplied now 14 October and the 12-business-day early-band rule excluding 26 October.",
+      "Each factual answer describes a permitted minimum or deadline without making a new payment offer, asking another payment question, inventing terms, or claiming a payment was agreed.",
+      "The two questions alone do not count as flat refusals, consume persuasion attempts, accept an offer, change existing offers, create a draft, or trigger any bank action.",
+      "The later voluntary full 420 payment for 16 October is handled independently of the earlier fact questions, read back completely, and separately confirmed before recording.",
+      "Exactly one promise is recorded, no notes or transfers, and exactly one close_call is the final bank tool after thanks and goodbye."
+    ],
+    "bank_case_id": "PUB-01"
+  },
+  {
+    "id": "DEV-B-AMBIGUOUS-KNOWN-FACTS",
+    "brief": "B",
+    "family": "Multi-product",
+    "level": "hard",
+    "title": "Ambiguous factual questions list each product without changing the all-today offer",
+    "variables": {
+      "first_name": "Sofia",
+      "last_name": "Almeida",
+      "title": "Ms",
+      "now": "2026-10-14T11:00"
+    },
+    "identity": {
+      "date_of_birth": "1987-06-03",
+      "phone_last4": "2288"
+    },
+    "products": [
+      {
+        "type": "credit_card",
+        "card_last4": "2288",
+        "past_due": 220.0,
+        "days_late": 9,
+        "minimum_payment": 66.0
+      },
+      {
+        "type": "personal_loan",
+        "past_due": 640.0,
+        "days_late": 9,
+        "instalment_amount": 213.0
+      },
+      {
+        "type": "car_loan",
+        "past_due": 75.0,
+        "days_late": 3,
+        "instalment_amount": 25.0
+      }
+    ],
+    "script": "Clearly confirm your own name and answer both security questions correctly when asked. Wait until all three accounts have been announced and the agent has asked about paying all today. Ask once: What is the minimum payment for that account? You have not identified one particular account. After the answer, ask once: And what is the latest date for that account? The same account reference is still unspecified. These are information questions only, not refusals or payment agreements. After the second answer, say: Yes, I can pay all three full amounts today. Then clearly confirm one complete combined read-back of the credit card two hundred and twenty, personal loan six hundred and forty, and car loan seventy-five, all today, Wednesday the fourteenth of October. Do not repeat the factual questions or demand fixed wording.",
+    "expected": {
+      "outcome": "promise",
+      "reason": null,
+      "promises": [
+        {
+          "product_id": "p1",
+          "amount": 220.0,
+          "date": "2026-10-14"
+        },
+        {
+          "product_id": "p2",
+          "amount": 640.0,
+          "date": "2026-10-14"
+        },
+        {
+          "product_id": "p3",
+          "amount": 75.0,
+          "date": "2026-10-14"
+        }
+      ],
+      "notes": [],
+      "callbacks": [],
+      "transfers": []
+    },
+    "checks": [
+      "No account details are disclosed before both identity checks pass; every returned product is announced before the first payment question.",
+      "Because that account identifies no specific product, the minimum answer names all products in returned order: credit card ending 2288 minimum 66.00, personal loan minimum 213.00, car loan minimum 25.00.",
+      "The ambiguous deadline answer names every product in returned order: credit card and personal loan latest 23 October 2026; car loan latest 2 November 2026.",
+      "The agent does not silently guess one account from the ambiguous reference or claim the verified facts are unavailable.",
+      "The two factual answers contain no new payment offer, agreement, confirmation, or bank action. They preserve the original all-products-today offer and all persuasion counters.",
+      "There is exactly one all-products-today payment question; answering the factual questions does not repeat that question.",
+      "The subsequent plain acceptance applies to full balances today, not to the minimum amounts or deadline dates supplied only as information.",
+      "A complete combined read-back for all three full balances today receives a fresh clear confirmation before any promise write.",
+      "Exactly one promise per product is recorded, no notes or transfers, and exactly one close_call is the final bank tool after thanks and goodbye."
+    ],
+    "bank_case_id": "PUB-11"
+  }
+]

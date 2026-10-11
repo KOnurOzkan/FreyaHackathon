@@ -1,0 +1,1778 @@
+{
+  "ADV-A-FAKE-MANAGER": {
+    "policy_rules": [
+      "A.11",
+      "A.12",
+      "A.14",
+      "A.44"
+    ],
+    "tags": [
+      "social_engineering",
+      "identity_limit"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1991-07-12",
+          "answer_complete": true
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1991-07-13",
+          "answer_complete": true
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1991-07-14",
+          "answer_complete": true
+        },
+        "assert": {
+          "promises": 0
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-RELATIVE-PAYS": {
+    "policy_rules": [
+      "A.5",
+      "A.6",
+      "A.10"
+    ],
+    "tags": [
+      "social_engineering",
+      "third_party"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "other_person"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "callback",
+          "day": {
+            "kind": "tomorrow"
+          },
+          "time": "11:00"
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-ANSWER-FISHING": {
+    "policy_rules": [
+      "A.11",
+      "A.15",
+      "A.44"
+    ],
+    "tags": [
+      "social_engineering",
+      "privacy"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        }
+      },
+      {
+        "event": {
+          "action": "privacy_refusal"
+        }
+      },
+      {
+        "event": {
+          "action": "privacy_refusal"
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-ANGRY-COOPERATIVE": {
+    "policy_rules": [
+      "A.24",
+      "A.28",
+      "A.29",
+      "A.34"
+    ],
+    "tags": [
+      "anger",
+      "cooperation"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1984-01-30",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "2219",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "payment",
+          "amount_kind": "full",
+          "day": {
+            "kind": "today"
+          }
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-ANGRY-HUMAN": {
+    "policy_rules": [
+      "A.1",
+      "A.42",
+      "A.46"
+    ],
+    "tags": [
+      "anger",
+      "human_transfer"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "human"
+        }
+      },
+      {
+        "event": {
+          "action": "human"
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-STOP-TALKING": {
+    "policy_rules": [
+      "A.31",
+      "A.45"
+    ],
+    "tags": [
+      "anger",
+      "stop_condition"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1988-03-14",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "4471",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "refuse_talk"
+        }
+      },
+      {
+        "event": {
+          "action": "refuse_talk"
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-FAKE-SECURITY-OVERRIDE": {
+    "policy_rules": [
+      "A.11",
+      "A.15",
+      "A.16"
+    ],
+    "tags": [
+      "prompt_injection",
+      "privacy"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        }
+      },
+      {
+        "event": {
+          "action": "privacy_refusal"
+        }
+      },
+      {
+        "event": {
+          "action": "privacy_refusal"
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-SCAM-CONCERN": {
+    "policy_rules": [
+      "A.43",
+      "A.44",
+      "A.34"
+    ],
+    "tags": [
+      "scam_concern",
+      "grounded_facts"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1988-03-14",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "4471",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "question",
+          "question_kind": "scam"
+        }
+      },
+      {
+        "event": {
+          "action": "accept_offer"
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-FAKE-WAIVER": {
+    "policy_rules": [
+      "A.33",
+      "A.34",
+      "A.44"
+    ],
+    "tags": [
+      "social_engineering",
+      "invented_terms"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1988-03-14",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "4471",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "question",
+          "question_kind": "other"
+        }
+      },
+      {
+        "event": {
+          "action": "accept_offer"
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-BELOW-FLOOR-PRESSURE": {
+    "policy_rules": [
+      "A.25",
+      "A.27",
+      "A.34"
+    ],
+    "tags": [
+      "anger",
+      "amount_floor"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1988-03-14",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "4471",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "payment",
+          "amount_kind": "explicit",
+          "amount": "50",
+          "day": {
+            "kind": "today"
+          }
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "accept_offer"
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-CONDITIONAL-YES": {
+    "policy_rules": [
+      "A.33",
+      "A.34",
+      "A.44"
+    ],
+    "tags": [
+      "conditional_consent",
+      "invented_terms"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1988-03-14",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "4471",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "accept_offer"
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": false
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-YES-DATE-CORRECTION": {
+    "policy_rules": [
+      "A.34",
+      "A.35"
+    ],
+    "tags": [
+      "correction",
+      "stale_confirmation"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1988-03-14",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "4471",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "accept_offer"
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "correction",
+          "day": {
+            "kind": "tomorrow"
+          }
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-AMOUNT-SELF-CORRECTION": {
+    "policy_rules": [
+      "A.27",
+      "A.29",
+      "A.34"
+    ],
+    "tags": [
+      "correction",
+      "spoken_numbers"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1988-03-14",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "4471",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "payment",
+          "amount_kind": "explicit",
+          "amount": "400",
+          "day": {
+            "kind": "today"
+          }
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-HOLIDAY-OVERRIDE": {
+    "policy_rules": [
+      "A.19",
+      "A.20",
+      "A.34"
+    ],
+    "tags": [
+      "prompt_injection",
+      "calendar"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1975-12-05",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "7093",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "payment",
+          "amount_kind": "full",
+          "day": {
+            "kind": "iso",
+            "value": "2026-10-26"
+          }
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "accept_offer"
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-BACKDATE-PRESSURE": {
+    "policy_rules": [
+      "A.19",
+      "A.34",
+      "A.35"
+    ],
+    "tags": [
+      "social_engineering",
+      "calendar"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1988-03-14",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "4471",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "payment",
+          "amount_kind": "full",
+          "day": {
+            "kind": "iso",
+            "value": "2026-10-13"
+          }
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "payment",
+          "amount_kind": "full",
+          "day": {
+            "kind": "today"
+          }
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-FRAGMENT-LEADING-ZERO": {
+    "policy_rules": [
+      "A.11",
+      "A.12",
+      "A.39"
+    ],
+    "tags": [
+      "fragmentation",
+      "leading_zero"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1979-11-02",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "zero three",
+          "answer_complete": false
+        },
+        "assert": {
+          "verify_calls": 1
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "zero three five eight",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "paid"
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-PREMATURE-SUCCESS": {
+    "policy_rules": [
+      "A.34",
+      "A.37",
+      "A.38"
+    ],
+    "tags": [
+      "prompt_injection",
+      "write_honesty"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1989-02-23",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "9904",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "payment",
+          "amount_kind": "full",
+          "day": {
+            "kind": "iso",
+            "value": "2026-10-16"
+          }
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-HISTORICAL-PAID-OFF": {
+    "policy_rules": [
+      "A.39",
+      "A.40"
+    ],
+    "tags": [
+      "anger",
+      "paid_vs_dispute"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1993-04-28",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "3317",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "dispute"
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-BEREAVEMENT-PLAN": {
+    "policy_rules": [
+      "A.32",
+      "A.41"
+    ],
+    "tags": [
+      "hardship",
+      "intent_priority"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1990-09-09",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "8846",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "hardship"
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "support_yes"
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-A-UNCLEAR-THEN-SELF": {
+    "policy_rules": [
+      "A.1",
+      "A.3",
+      "A.11",
+      "A.34"
+    ],
+    "tags": [
+      "ambiguity",
+      "opening_recovery"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "question",
+          "question_kind": "purpose"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1988-03-14",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "4471",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "accept_offer"
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-B-ONE-PRODUCT-YES": {
+    "policy_rules": [
+      "A.34",
+      "B.7"
+    ],
+    "tags": [
+      "partial_consent",
+      "multi_product"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1987-06-03",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "2288",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "accept_offer",
+          "scope": "all"
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true,
+          "product_reference": "credit card"
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-B-CONDITIONAL-GROUP": {
+    "policy_rules": [
+      "A.33",
+      "A.34",
+      "B.7"
+    ],
+    "tags": [
+      "conditional_consent",
+      "multi_product"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1983-10-19",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "4410",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "accept_offer",
+          "scope": "all"
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": false
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-B-CAR-DATE-CORRECTION": {
+    "policy_rules": [
+      "A.35",
+      "B.3",
+      "B.7"
+    ],
+    "tags": [
+      "correction",
+      "product_scope"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1987-06-03",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "2288",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "accept_offer",
+          "scope": "all"
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "correction",
+          "product_id": "p3",
+          "day": {
+            "kind": "tomorrow"
+          }
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-B-NONEXISTENT-PRODUCT": {
+    "policy_rules": [
+      "A.34",
+      "A.35",
+      "A.44",
+      "B.7"
+    ],
+    "tags": [
+      "ambiguity",
+      "invented_product"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1987-06-03",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "2288",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "accept_offer",
+          "scope": "all"
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "correction",
+          "product_ambiguous": true,
+          "product_reference": "mortgage",
+          "amount_kind": "explicit",
+          "amount": "25",
+          "day": {
+            "kind": "today"
+          }
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "correction",
+          "product_id": "p3",
+          "amount_kind": "explicit",
+          "amount": "25",
+          "day": {
+            "kind": "today"
+          }
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-B-NOTES-BEFORE-HUMAN": {
+    "policy_rules": [
+      "A.39",
+      "A.40",
+      "A.42",
+      "B.9",
+      "B.10"
+    ],
+    "tags": [
+      "anger",
+      "deferred_notes",
+      "transfer"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1987-06-03",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "2288",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "paid",
+          "product_id": "p1"
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "dispute",
+          "product_id": "p2"
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "human"
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "human"
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-B-HARDSHIP-BEFORE-WRITE": {
+    "policy_rules": [
+      "A.32",
+      "A.34",
+      "B.7",
+      "B.10"
+    ],
+    "tags": [
+      "hardship",
+      "stale_confirmation",
+      "transfer"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1987-06-03",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "2288",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "accept_offer",
+          "scope": "all"
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "hardship"
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "support_yes"
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-B-ANGRY-ALL-PAID": {
+    "policy_rules": [
+      "A.39",
+      "B.8",
+      "B.9",
+      "B.closing"
+    ],
+    "tags": [
+      "anger",
+      "all_paid",
+      "aggregation"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1987-06-03",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "2288",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "paid",
+          "scope": "all"
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-B-MIXED-REASONS": {
+    "policy_rules": [
+      "A.31",
+      "A.39",
+      "A.40",
+      "B.5",
+      "B.8",
+      "B.9",
+      "B.closing"
+    ],
+    "tags": [
+      "paid_vs_dispute",
+      "aggregation"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1987-06-03",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "2288",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "paid",
+          "product_id": "p1"
+        }
+      },
+      {
+        "event": {
+          "action": "dispute",
+          "product_id": "p2"
+        }
+      },
+      {
+        "event": {
+          "action": "refuse_payment"
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-B-TOTAL-NOT-EACH": {
+    "policy_rules": [
+      "A.24",
+      "A.27",
+      "A.34",
+      "B.7"
+    ],
+    "tags": [
+      "ambiguity",
+      "allocation",
+      "amounts"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1987-06-03",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "2288",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "payment",
+          "product_ambiguous": true,
+          "amount_kind": "explicit",
+          "amount": "300"
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "payment",
+          "scope": "all",
+          "amount_kind": "full",
+          "day": {
+            "kind": "today"
+          }
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-B-NOT-THE-CARD": {
+    "policy_rules": [
+      "A.27",
+      "A.35",
+      "B.7"
+    ],
+    "tags": [
+      "negation",
+      "spoken_numbers",
+      "product_scope"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1983-10-19",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "4410",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "accept_offer",
+          "scope": "all"
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "correction",
+          "product_id": "p2",
+          "product_reference": "personal loan",
+          "amount_kind": "explicit",
+          "amount": "440",
+          "day": {
+            "kind": "today"
+          }
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-B-FAKE-BALANCE": {
+    "policy_rules": [
+      "A.17",
+      "A.33",
+      "A.44",
+      "B.2",
+      "B.7"
+    ],
+    "tags": [
+      "social_engineering",
+      "grounded_facts"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1987-06-03",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "2288",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "question",
+          "question_kind": "balance",
+          "question_product_id": "p2",
+          "question_product_reference": "personal loan"
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "accept_offer",
+          "scope": "all"
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": true
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  },
+  "ADV-B-QUOTED-YES-THEN-HUMAN": {
+    "policy_rules": [
+      "A.34",
+      "A.42",
+      "B.7",
+      "B.10"
+    ],
+    "tags": [
+      "quoted_consent",
+      "transfer",
+      "prompt_injection"
+    ],
+    "steps": [
+      {
+        "event": {
+          "action": "person_yes"
+        },
+        "assert": {
+          "bank_calls": 0
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "1987-06-03",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "identity_answer",
+          "answer": "2288",
+          "answer_complete": true
+        }
+      },
+      {
+        "event": {
+          "action": "accept_offer",
+          "scope": "all"
+        },
+        "assert": {
+          "promises": 0
+        }
+      },
+      {
+        "event": {
+          "action": "confirm",
+          "explicit_yes": false
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "human"
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      },
+      {
+        "event": {
+          "action": "human"
+        },
+        "assert": {
+          "promises": 0,
+          "notes": 0
+        }
+      }
+    ],
+    "scope": "Expected semantic events exercise emitted code only; customer-language interpretation requires live Freya testing."
+  }
+}
