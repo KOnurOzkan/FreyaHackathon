@@ -1,0 +1,15 @@
+{
+  "team": "Kemal Onur Özkan",
+  "members": [
+    {
+      "name": "Kemal Onur Özkan",
+      "email": "onurozkan1905@outlook.com"
+    }
+  ],
+  "repo": "https://github.com/KOnurOzkan/FreyaHackathon",
+  "commit": "e3e0c0cea6c702c2c5cdd627838373107b97c4c5",
+  "run_command": "cd build-the-builder && python3 builder/build.py {case_folder} {mock_url} --agent-cli claude 2>&1 | tee traces/final.log",
+  "workflow": "build-the-builder/submission/final-claude2.workflow.json",
+  "trace": "build-the-builder/traces/final-claude2.log",
+  "mock_url": "https://freya-mock-bank.konurozkan1905.workers.dev"
+}
