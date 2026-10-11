@@ -819,7 +819,8 @@ class Conversation:
                     candidates += [a + sep + b for a, b in ((held, answer), (answer, held)) for sep in (" ", "/")]
                 for candidate in candidates:
                     try:
-                        normalized = normalize_security_answer(question["normalization"], candidate, plan["numeric_date_order"])
+                        normalized = normalize_security_answer(question["normalization"], candidate, plan["numeric_date_order"],
+                                                               plan.get("month_names", ()))
                         break
                     except InvalidInput:
                         pass
@@ -1087,9 +1088,17 @@ class Conversation:
         return " ".join(part.strip() for part in parts if part.strip())
 
 
-def normalize_security_answer(kind, answer, numeric_date_order):
+def fold(text):
+    """Case- and accent-insensitive Latin letters, without unicodedata (sandbox).
+    Only functions are emitted into the workflow, so the table lives here."""
+    table = str.maketrans("çğıöşüâîûéèàä",
+                          "cgiosuaiueeaa")
+    return str(text).replace("İ", "I").lower().replace("̇", "").translate(table)
+
+
+def normalize_security_answer(kind, answer, numeric_date_order, month_names=()):
     if kind == "date":
-        return normalize_birth_date(answer, numeric_date_order)
+        return normalize_birth_date(answer, numeric_date_order, month_names)
     if kind == "last_four":
         return normalize_last_four(answer)
     if kind == "year":
@@ -1114,8 +1123,10 @@ def normalize_year(answer):
 def normalize_digits(answer, length=None):
     """A complete numeric code; leading zeros are kept and nothing is guessed."""
     digits = dict(zip("zero one two three four five six seven eight nine".split(), "0123456789"))
+    # Spoken digits in the case language are folded too (calls may not be in English).
+    digits.update(zip("sifir bir iki uc dort bes alti yedi sekiz dokuz".split(), "0123456789"))
     digits["oh"] = "0"
-    tokens = re.sub(r"[,.-]", " ", str(answer).lower()).split()
+    tokens = re.sub(r"[,.-]", " ", fold(answer)).split()
     result, copies = "", 1
     for token in tokens:
         if token in {"double", "triple"}:
@@ -1133,16 +1144,22 @@ def normalize_digits(answer, length=None):
     return result
 
 
-def normalize_birth_date(answer, order):
+def normalize_birth_date(answer, order, month_names=()):
     if re.fullmatch(r"\d{4}-\d{2}-\d{2}", answer):
         return iso_date(answer).isoformat()
     # Accept complete literal month names when extraction preserves the speech.
     # Missing parts still need clarification; never infer a year or swap numbers.
     months = ("january", "february", "march", "april", "may", "june", "july", "august",
               "september", "october", "november", "december")
-    tokens = re.sub(r"[,\-]", " ", answer.strip().lower()).split()
+    # The plan's month names are in the case language; both lists are accepted.
+    local = [fold(name) for name in month_names] if len(month_names) == 12 else []
+    def month_of(token):
+        hits = {n + 1 for n, name in enumerate(months) if token in {name, name[:3]}}
+        hits |= {n + 1 for n, name in enumerate(local) if token == name}
+        return hits.pop() if len(hits) == 1 else None
+    tokens = re.sub(r"[,.\-]", " ", fold(answer.strip())).split()
     tokens = [t for t in tokens if t not in {"the", "of"}]
-    found = [(i, n + 1) for i, token in enumerate(tokens) for n, name in enumerate(months) if token in {name, name[:3]}]
+    found = [(i, month_of(token)) for i, token in enumerate(tokens) if month_of(token)]
     if len(found) == 1:
         index, month = found[0]
         candidates = []
@@ -1158,19 +1175,18 @@ def normalize_birth_date(answer, order):
         if len(set(candidates)) == 1:
             return candidates[0]
         raise InvalidInput("A complete unambiguous month-name birth date is required")
-    words = re.fullmatch(r"(\d{1,2})(?:st|nd|rd|th)?\s+([A-Za-z]+)\s*,?\s*(\d{4})", answer.strip())
-    month_first = re.fullmatch(r"([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?\s*,?\s*(\d{4})", answer.strip())
+    words = re.fullmatch(r"(\d{1,2})(?:st|nd|rd|th|\.)?\s+([^\W\d_]+)\s*,?\s*(\d{4})", answer.strip())
+    month_first = re.fullmatch(r"([^\W\d_]+)\s+(\d{1,2})(?:st|nd|rd|th)?\s*,?\s*(\d{4})", answer.strip())
     if words or month_first:
         if words:
             day, month, year = words.groups()
         else:
             month, day, year = month_first.groups()
-        normalized = month.lower()
-        matches = [i + 1 for i, name in enumerate(months) if normalized in (name, name[:3])]
+        match = month_of(fold(month))
         try:
-            if len(matches) != 1:
+            if match is None:
                 raise ValueError("Unknown month")
-            return date(int(year), matches[0], int(day)).isoformat()
+            return date(int(year), match, int(day)).isoformat()
         except ValueError as exc:
             raise InvalidInput("Invalid month-name birth date") from exc
     parts = re.split(r"[/.\-]", answer)

@@ -10,3 +10,8 @@ __pycache__/
 build-the-builder/out/
 build-the-builder/.freya-agents.json
 build-the-builder/.personas.json
+build-the-builder/mock/node_modules/
+build-the-builder/mock/.wrangler/
+build-the-builder/mock/dist/
+build-the-builder/.git/
+*.zip
